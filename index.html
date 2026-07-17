@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hari Nandha Kumar C | Full Stack & Backend Engineer</title>
+  <meta name="description" content="Portfolio of Hari Nandha Kumar C - B.Tech CSBS student, Full Stack Developer, and Backend Engineer specializing in Rust, ClickHouse, and systems engineering.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <!-- Glowing background elements -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="#home" class="logo" data-id="nav_logo">
+      <span>HNK</span>
+    </a>
+
+    <button class="menu-btn" aria-label="Toggle Navigation" data-id="mobile_menu_btn">
+      &#9776;
+    </button>
+
+    <div class="nav-links">
+      <a href="#home" class="active" data-id="nav_home">Home</a>
+      <a href="#about" data-id="nav_about">About</a>
+      <a href="#projects" data-id="nav_projects">Projects</a>
+      <a href="#skills" data-id="nav_skills">Skills</a>
+      <a href="#contact" data-id="nav_contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- MAIN SCROLL CONTENT -->
+  <main>
+
+    <!-- SECTION 1: HOME (HERO) -->
+    <section id="home" class="visible" data-section="hero">
+      <div class="hero-grid">
+        
+        <div class="hero-info">
+          
+          <h1 class="gradient-text">
+            Hello, I'm <br>
+            <span class="green-glow-text">HARI NANDHA KUMAR C</span>
+          </h1>
+          
+          <h2>
+            <span id="typed">Backend Engineer</span>
+            <span class="cursor" style="color: var(--primary); animation: blink 1s infinite;">|</span>
+          </h2>
+          
+          <p class="hero-desc">
+            B.Tech Computer Science & Business Systems student at Panimalar Engineering College. Specialising in high-performance analytics, custom database pipelines, and scalable backend infrastructures.
+          </p>
+          
+          <div class="hero-tags">
+            <span class="pill">Rust</span>
+            <span class="pill">ClickHouse</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">Axum</span>
+            <span class="pill">Docker</span>
+          </div>
+          
+          <div class="btn-container">
+            <a href="#projects" class="btn btn-primary" data-id="hero_portfolio_btn">
+              Projects &darr;
+            </a>
+            <a href="resume.pdf" class="btn btn-secondary" download data-id="hero_resume_btn">
+              Download Resume ↓
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <!-- Code Editor Mockup Window (Typing Style) -->
+          <div class="code-window" data-id="hero_code_window">
+            
+            <div class="code-window-header">
+              <div class="window-controls">
+                <span class="window-dot red"></span>
+                <span class="window-dot yellow"></span>
+                <span class="window-dot green"></span>
+              </div>
+              <span class="window-title">portfolio.tsx</span>
+              <div class="window-tag-btn">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                  <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="code-window-body">
+              <div class="code-editor" id="code-editor-typing">
+                <div class="code-line"><span class="ln">1</span><span class="code-text"><span class="editor-cursor">|</span></span></div>
+              </div>
+            </div>
+            
+            <div class="code-window-footer">
+              <a href="#about" class="footer-btn btn-run" data-id="run_profile_btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                Run Profile
+              </a>
+              <a href="#projects" class="footer-btn btn-view" data-id="view_projects_btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/>
+                </svg>
+                View Projects
+              </a>
+              
+              <div class="footer-avatar">
+                <img src="profile.png" alt="Hari" onerror="this.style.display='none'">
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: ABOUT -->
+    <section id="about" data-section="about">
+      <div class="section-header">
+        <span class="section-tag">Profile</span>
+        <h2>About Me</h2>
+        <p class="tagline">Transforming complex data into robust digital experiences</p>
+      </div>
+
+      <div class="glass-panel about-grid">
+        <div class="about-bio">
+          <h2>Who Am I</h2>
+          <p>
+            I have recently completed my B.Tech degree in Computer Science & Business Systems at Panimalar Engineering College. My core interest lies in backend development, database architecture, and low-latency systems. 
+          </p>
+          <p>
+            I specialize in engineering systems using <strong>Rust</strong> and <strong>SQL</strong>, and managing column-oriented data storage in <strong>ClickHouse</strong> for analytics pipelines. I focus on building reliable software with clean structure and robust system design.
+          </p>
+          <div class="btn-container">
+            <a href="resume.pdf" class="btn btn-primary" download data-id="about_resume_btn">
+              Download Resume ↓
+            </a>
+            <a href="#projects" class="btn btn-secondary" data-id="about_portfolio_btn">
+              Explore Projects &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="avatar-container">
+          <div class="avatar-glow">
+            <div class="avatar-inner">
+              <img src="Media.jpg" alt="Hari Nandha Kumar C" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COUNTER WIDGETS -->
+      <div class="stats-container">
+        <div class="stat-card" data-id="stat_projects">
+          <h3 class="stat-number" data-target="5" data-suffix="+">0+</h3>
+          <p>Projects Built</p>
+        </div>
+        <div class="stat-card" data-id="stat_certifications">
+          <h3 class="stat-number" data-target="3" data-suffix="">0</h3>
+          <p>Certifications</p>
+        </div>
+        <div class="stat-card" data-id="stat_experience">
+          <h3 class="stat-number" data-target="6" data-suffix=" Months">0 Months</h3>
+          <p>Experience</p>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE & EDUCATION TIMELINES -->
+      <div class="timeline-section">
+        
+        <!-- Experience -->
+        <div>
+          <h3 class="timeline-title">
+            <span>💼</span> Work Experience
+          </h3>
+          <div class="timeline-container">
+            
+            <div class="timeline-item active">
+              <div class="timeline-meta">
+                <span class="timeline-date">Current</span>
+                <span class="pill">Full Time</span>
+              </div>
+              <h4>Software Engineer</h4>
+              <p class="timeline-org">Inspoworks Technologies • Chennai</p>
+              <ul>
+                <li>Developing high-performance analytics tracker platforms.</li>
+                <li>Writing backend microservices in Rust using Axum and ClickHouse.</li>
+                <li>Developing event tracking heatmaps and conversion funnel logic.</li>
+              </ul>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-meta">
+                <span class="timeline-date">May 2025 - Jun 2025</span>
+                <span class="pill">Internship</span>
+              </div>
+              <h4>Web Development Intern</h4>
+              <p class="timeline-org">InternPe • Chennai, India</p>
+              <ul>
+                <li>Acquired hands-on experience in HTML, CSS, JavaScript, and UI/UX.</li>
+                <li>Worked on frontend components for real-time applications.</li>
+              </ul>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-meta">
+                <span class="timeline-date">May 2025 - Jun 2025</span>
+                <span class="pill">Internship</span>
+              </div>
+              <h4>Web Based Application Intern</h4>
+              <p class="timeline-org">TCS iON • Chennai, India</p>
+              <ul>
+                <li>Designed security components including custom CAPTCHA verification services.</li>
+                <li>Implemented clean, responsive interfaces using standard HTML/CSS.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div>
+          <h3 class="timeline-title">
+            <span>🎓</span> Education
+          </h3>
+          <div class="timeline-container">
+            
+            <div class="timeline-item active">
+              <div class="timeline-meta">
+                <span class="timeline-date">2022 - 2026 (Expected)</span>
+                <span class="pill">B.Tech</span>
+              </div>
+              <h4>Computer Science & Business Systems</h4>
+              <p class="timeline-org">Panimalar Engineering College (Anna University)</p>
+              <ul>
+                <li>Current Cumulative GPA: <strong>7.9 / 10</strong>.</li>
+                <li>Specialized in algorithmic design, database management, and business operations.</li>
+              </ul>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-meta">
+                <span class="timeline-date">2008 - 2022</span>
+                <span class="pill">High School</span>
+              </div>
+              <h4>Higher Secondary Education (HSE)</h4>
+              <p class="timeline-org">The TVS School • Madurai</p>
+              <ul>
+                <li>Graduated with a final score of <strong>71%</strong>.</li>
+                <li>Strong foundation in mathematics and science.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: PROJECTS -->
+    <section id="projects" data-section="projects">
+      <div class="section-header">
+        <span class="section-tag">Showcase</span>
+        <h2>Projects</h2>
+        <p class="tagline">A selection of backend systems, mobile apps, and tools I have engineered</p>
+      </div>
+
+      <div class="project-grid">
+        
+        <!-- Project 1 -->
+        <div class="project-card" data-id="project_analytics">
+          <span class="project-status in-progress">In Progress</span>
+          <h3>Click Tracking Analytics Platform</h3>
+          <p>
+            An analytics tracking framework mapping client-side page telemetry (clicks, scrolls, navigation paths) and pushing them to a Rust pipeline. Implements live viewport coordinate conversions for heatmap visualisations.
+          </p>
+          <div class="project-tags">
+            <span class="pill">Rust</span>
+            <span class="pill">Axum</span>
+            <span class="pill">ClickHouse</span>
+            <span class="pill">Cloudflare</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card" data-id="project_sync_service">
+          <span class="project-status completed">Completed</span>
+          <h3>ClickHouse &rarr; PostgreSQL Sync</h3>
+          <p>
+            An incremental data synchronisation service built to periodically sync analytical aggregates into transactional database layers. Implements transactional watermark boundaries to avoid processing duplicates.
+          </p>
+          <div class="project-tags">
+            <span class="pill">Rust</span>
+            <span class="pill">ClickHouse</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">Docker</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card" data-id="project_hexaboard">
+          <span class="project-status hackathon">Hackathon</span>
+          <h3>HexaBoard Onboarding Platform</h3>
+          <p>
+            Developed during the Hexaware Hackathon. An AI-powered training and scoring platform incorporating automated quizzes, onboarding paths, and AI feedback panels to evaluate trainee progression.
+          </p>
+          <div class="project-tags">
+            <span class="pill">ReactJS</span>
+            <span class="pill">Firebase</span>
+            <span class="pill">Gemini AI</span>
+            <span class="pill">Node.js</span>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-card" data-id="project_vehicle_repairs">
+          <span class="project-status completed">Completed</span>
+          <h3>On-the-Go Vehicle Repairs</h3>
+          <p>
+            A mobile app connecting vehicle owners with nearby service mechanics in real-time. Features active location tagging, push alerts, mechanic ratings, and secure authentication pipelines.
+          </p>
+          <div class="project-tags">
+            <span class="pill">React Native</span>
+            <span class="pill">Node.js</span>
+            <span class="pill">MongoDB</span>
+            <span class="pill">JWT</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: SKILLS -->
+    <section id="skills" data-section="skills">
+      <div class="section-header">
+        <span class="section-tag">Competency</span>
+        <h2>Skills & Credentials</h2>
+        <p class="tagline">Certifications, technology stack, and academic accolades</p>
+      </div>
+
+      <!-- Technical Skills Grid -->
+      <div class="skills-main-grid">
+        
+        <div class="skill-category" data-id="skill_cat_programming">
+          <h3>💻 Programming Languages</h3>
+          <div class="skill-pills">
+            <span class="pill">Java</span>
+            <span class="pill">Rust</span>
+            <span class="pill">SQL</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">HTML5</span>
+            <span class="pill">CSS3</span>
+          </div>
+        </div>
+
+        <div class="skill-category" data-id="skill_cat_backend">
+          <h3>⚙️ Backend & Storage</h3>
+          <div class="skill-pills">
+            <span class="pill">Axum</span>
+            <span class="pill">Node.js</span>
+            <span class="pill">ClickHouse</span>
+            <span class="pill">PostgreSQL</span>
+            <span class="pill">MongoDB</span>
+            <span class="pill">REST APIs</span>
+            <span class="pill">JWT</span>
+          </div>
+        </div>
+
+        <div class="skill-category" data-id="skill_cat_devops">
+          <h3>☁️ DevOps & Tools</h3>
+          <div class="skill-pills">
+            <span class="pill">Docker</span>
+            <span class="pill">Cloudflare Workers</span>
+            <span class="pill">Git</span>
+            <span class="pill">GitHub</span>
+            <span class="pill">ChatGPT API</span>
+            <span class="pill">Linux</span>
+          </div>
+        </div>
+
+        <div class="skill-category" data-id="skill_cat_soft">
+          <h3>🤝 Leadership & Methods</h3>
+          <div class="skill-pills">
+            <span class="pill">Problem Solving</span>
+            <span class="pill">Team Collaboration</span>
+            <span class="pill">Adaptability</span>
+            <span class="pill">Event Organizing</span>
+            <span class="pill">Technical Writing</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Credentials & Accolades -->
+      <div class="certs-achieve-grid">
+        
+        <!-- Certifications -->
+        <div>
+          <h3 class="timeline-title">
+            <span>📜</span> Certifications
+          </h3>
+          
+          <div class="cert-card" data-id="cert_oracle">
+            <div class="cert-info">
+              <h4>Oracle Java SE 11 Professional</h4>
+              <p>Oracle Certified Java Developer</p>
+            </div>
+            <span class="cert-date">Apr 2025</span>
+          </div>
+
+          <div class="cert-card" data-id="cert_nptel">
+            <div class="cert-info">
+              <h4>Programming in Java</h4>
+              <p>NPTEL National Certification</p>
+            </div>
+            <span class="cert-date">Jan 2024</span>
+          </div>
+
+          <div class="cert-card" data-id="cert_coursera">
+            <div class="cert-info">
+              <h4>Introduction to Front-End Dev</h4>
+              <p>Coursera • Meta</p>
+            </div>
+            <span class="cert-date">Jun 2024</span>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div>
+          <h3 class="timeline-title">
+            <span>🏆</span> Achievements & Activities
+          </h3>
+          <div class="achievement-list">
+            
+            <div class="achievement-item" data-id="achieve_pecteam">
+              <span class="achievement-icon">🥇</span>
+              <div class="achievement-content">
+                <h4>PECTEAM 2K25 - First Place</h4>
+                <p>Awarded 1st prize for best paper presentation on "Infant Cry Recognition System using Arduino".</p>
+              </div>
+            </div>
+
+            <div class="achievement-item" data-id="achieve_codeburst">
+              <span class="achievement-icon">🥈</span>
+              <div class="achievement-content">
+                <h4>CODEBURST - Second Place</h4>
+                <p>Won 2nd prize in the Competitive coding event at Sairam Engineering College.</p>
+              </div>
+            </div>
+
+            <div class="achievement-item" data-id="achieve_volunteer">
+              <span class="achievement-icon">🎤</span>
+              <div class="achievement-content">
+                <h4>Community Volunteering</h4>
+                <p>Active volunteer at Chennai React, D3, and Code on JVM developer meetups.</p>
+              </div>
+            </div>
+
+            <div class="achievement-item" data-id="achieve_coordinator">
+              <span class="achievement-icon">📋</span>
+              <div class="achievement-content">
+                <h4>Symposium Coordinator</h4>
+                <p>Assigned Student Coordinator for CSBS department symposium MADASA'25.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: CONTACT -->
+    <section id="contact" data-section="contact">
+      <div class="section-header">
+        <span class="section-tag">Connect</span>
+        <h2>Contact</h2>
+        <p class="tagline">Got a question or want to collaborate? Send a message!</p>
+      </div>
+
+      <div class="contact-container">
+        
+        <!-- Message form -->
+        <div class="glass-panel" data-id="contact_form_panel" style="max-width: 600px; margin: 0 auto;">
+          <h3 class="form-title">✉️ Send a Message</h3>
+          <form id="direct-message-form" action="#" method="POST">
+            
+            <div class="form-group">
+              <label for="contact-name">Name *</label>
+              <input type="text" id="contact-name" class="form-control" placeholder="Your name" required data-id="direct_name_input">
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email">Email *</label>
+              <input type="email" id="contact-email" class="form-control" placeholder="Your email" required data-id="direct_email_input">
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message">Message *</label>
+              <textarea id="contact-message" class="form-control" placeholder="Write your message..." required data-id="direct_message_input"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-id="direct_submit_btn">
+              Send Message
+            </button>
+
+          </form>
+        </div>
+
+        <!-- Contact Information (LinkedIn & Email) -->
+        <div style="text-align: center; margin-top: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+          <a href="mailto:harihnk033@gmail.com" class="btn btn-secondary" data-id="contact_email_link">
+            ✉ harihnk033@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/hari-nandha-kumar-c/" target="_blank" class="btn btn-secondary" data-id="contact_linkedin_link">
+            🔗 LinkedIn Profile
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BACK TO TOP -->
+  <button id="back-to-top" aria-label="Back To Top" data-id="back_to_top">
+    ↑
+  </button>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      © 2026 Hari Nandha Kumar C
+    </div>
+    <div>
+      Built with Vanilla HTML • CSS • JS
+    </div>
+  </footer>
+
+  <script>
+    window.TRACKER_CONFIG = {
+      apiUrl: "http://localhost:3003/events",
+      flushInterval: 5000,
+      batchSize: 20
+    };
+  </script>
+  <script src="tracker.js"></script>
+  <script src="site.js"></script>
+</body>
+</html>
