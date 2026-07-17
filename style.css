@@ -140,6 +140,13 @@ nav {
   transform: scale(1.05);
 }
 
+.logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
 .logo span {
   background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;

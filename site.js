@@ -3,6 +3,7 @@
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  const isFileProtocol = window.location.protocol === "file:";
   const isLocalDev = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
   // =====================================
@@ -123,10 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
           // Sync browser address bar dynamically during scroll
-          if (isLocalDev) {
-            history.replaceState(null, null, `#${sectionId}`);
-          } else {
-            history.replaceState(null, null, targetPath);
+          if (!isFileProtocol) {
+            if (isLocalDev) {
+              history.replaceState(null, null, `#${sectionId}`);
+            } else {
+              history.replaceState(null, null, targetPath);
+            }
           }
         }
       });
@@ -734,16 +737,18 @@ document.addEventListener("DOMContentLoaded", () => {
         targetSection.scrollIntoView({ behavior: "smooth" });
         
         // Update browser address bar path conditionally based on env
-        const targetPath = `/${sectionId}`;
-        if (isLocalDev) {
-          history.pushState(null, null, `#${sectionId}`);
-        } else {
-          history.pushState(null, null, targetPath);
-        }
-        
-        // Trigger pageview in analytics tracker (if tracker exists)
-        if (window.TrackerEngine && typeof window.TrackerEngine.logPageView === "function") {
-          window.TrackerEngine.logPageView(targetPath);
+        if (!isFileProtocol) {
+          const targetPath = `/${sectionId}`;
+          if (isLocalDev) {
+            history.pushState(null, null, `#${sectionId}`);
+          } else {
+            history.pushState(null, null, targetPath);
+          }
+          
+          // Trigger pageview in analytics tracker (if tracker exists)
+          if (window.TrackerEngine && typeof window.TrackerEngine.logPageView === "function") {
+            window.TrackerEngine.logPageView(targetPath);
+          }
         }
       }
     }
