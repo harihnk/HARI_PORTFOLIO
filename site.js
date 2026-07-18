@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const sectionId = entry.target.getAttribute("id");
-          const targetPath = `/${sectionId}`;
+          const targetPath = `#${sectionId}`;
           
           navItems.forEach(item => {
             const href = item.getAttribute("href");
@@ -125,12 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Sync browser address bar dynamically during scroll
           if (!isFileProtocol) {
-            if (isLocalDev) {
-              history.replaceState(null, null, `#${sectionId}`);
-            } else {
-              history.replaceState(null, null, targetPath);
-            }
-          }
+    history.replaceState(null, null, `#${sectionId}`);
+}
         }
       });
     }, { threshold: 0.35, rootMargin: "-80px 0px 0px 0px" });
@@ -681,50 +677,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // 10. SPA Path Routing (Hashless Navigation)
   // =====================================
   function resolveInitialRoute() {
-    const path = window.location.pathname;
     const hash = window.location.hash;
-    
-    let targetSectionId = "";
-    
-    if (isLocalDev) {
-      if (hash) {
-        targetSectionId = hash.replace("#", "");
-      }
-    } else {
-      // Production: Support paths like /about, /projects, or index.html/about
-      if (path.includes("index.html/")) {
-        targetSectionId = path.split("index.html/")[1];
-      } else {
-        const pathParts = path.split("/");
-        const lastPart = pathParts[pathParts.length - 1];
-        const validSections = ["home", "about", "projects", "skills", "contact"];
-        if (validSections.includes(lastPart)) {
-          targetSectionId = lastPart;
-        }
-      }
-      if (!targetSectionId && hash) {
-        targetSectionId = hash.replace("#", "");
-      }
-    }
-    
-    if (targetSectionId) {
-      const targetSection = document.getElementById(targetSectionId);
-      if (targetSection) {
+
+    if (!hash) return;
+
+    const sectionId = hash.substring(1);
+
+    const targetSection = document.getElementById(sectionId);
+
+    if (targetSection) {
         setTimeout(() => {
-          targetSection.scrollIntoView({ behavior: "smooth" });
-        }, 300);
-      }
+            targetSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }, 200);
     }
-  }
+}
 
   document.addEventListener("click", (e) => {
     const anchor = e.target.closest("a");
     if (!anchor) return;
     
     const href = anchor.getAttribute("href");
-    if (!href) return;
+     if (!href || !href.startsWith("#")) return;
     
-    const SPA_ROUTES = ["/home", "/about", "/projects", "/skills", "/contact"];
+    const SPA_ROUTES = ["#home", "#about", "#projects", "#skills", "#contact"];
     const hashMatches = href.match(/^#(home|about|projects|skills|contact)$/);
     
     if (SPA_ROUTES.includes(href) || hashMatches) {
@@ -738,17 +716,16 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Update browser address bar path conditionally based on env
         if (!isFileProtocol) {
-          const targetPath = `/${sectionId}`;
-          if (isLocalDev) {
-            history.pushState(null, null, `#${sectionId}`);
-          } else {
-            history.pushState(null, null, targetPath);
-          }
-          
-          // Trigger pageview in analytics tracker (if tracker exists)
-          if (window.TrackerEngine && typeof window.TrackerEngine.logPageView === "function") {
-            window.TrackerEngine.logPageView(targetPath);
-          }
+         const targetPath = `#${sectionId}`;
+
+history.pushState(null, null, targetPath);
+
+if (
+    window.TrackerEngine &&
+    typeof window.TrackerEngine.logPageView === "function"
+) {
+    window.TrackerEngine.logPageView(targetPath);
+}
         }
       }
     }
