@@ -4,7 +4,7 @@
   const ENABLED = CONFIG.enabled !== false;
   const API_URL = CONFIG.apiUrl || "http://localhost:3003/events";
   const FLUSH_INTERVAL_MS = CONFIG.flushInterval || 5000;
-  const BATCH_SIZE = CONFIG.batchSize || 10; // Smaller batch size to send events quicker
+  const BATCH_SIZE = CONFIG.batchSize || 10;
 
   if (!ENABLED) {
     return;
@@ -72,7 +72,7 @@
       device = /ipad/i.test(ua) ? "Tablet" : "Mobile";
     }
 
-    // Secondary mobile check
+    // Secondary mobile check (touchscreen bypass)
     if (device === "Desktop" && /mobile/i.test(ua)) {
       device = "Mobile";
     }
@@ -142,7 +142,7 @@
   }
 
   function fetchIPGeoData() {
-    fetch("https://ipapi.co/json/")
+    return fetch("https://ipapi.co/json/")
       .then(res => res.json())
       .then(data => {
         geoData = {
@@ -152,9 +152,10 @@
           city: data.city || "unknown"
         };
         sessionStorage.setItem("tracker_geo_data", JSON.stringify(geoData));
+        return geoData;
       })
       .catch(() => {
-        fetch("https://ipinfo.io/json")
+        return fetch("https://ipinfo.io/json")
           .then(res => res.json())
           .then(data => {
             geoData = {
@@ -164,8 +165,11 @@
               city: data.city || "unknown"
             };
             sessionStorage.setItem("tracker_geo_data", JSON.stringify(geoData));
+            return geoData;
           })
-          .catch(() => {});
+          .catch(() => {
+            return geoData;
+          });
       });
   }
 
@@ -180,18 +184,12 @@
   sessionStorage.setItem("last_page", window.location.pathname + window.location.hash);
 
   // =====================================
-  // BASE EVENT BUILDER
+  // BASE EVENT BUILDER (FLUSH-TIME EVALUATION)
   // =====================================
   function baseFields() {
-    const now = new Date();
-    const tzOffset = now.getTimezoneOffset() * 60000;
-    const localTime = new Date(now.getTime() - tzOffset);
-
     return {
       user_id: userId,
       session_id: sessionId,
-      page_url: window.location.pathname + window.location.hash,
-      timestamp: localTime.toISOString(),
       browser: deviceDetails.browser,
       os: deviceDetails.os,
       device_type: deviceDetails.device,
@@ -201,10 +199,7 @@
       country: geoData.country,
       region: geoData.region,
       city: geoData.city,
-      previous_page: previousPage,
-      current_page: window.location.pathname + window.location.hash,
-      external_referrer: externalReferrer,
-      hash: window.location.hash || ""
+      external_referrer: externalReferrer
     };
   }
 
@@ -213,8 +208,18 @@
   // =====================================
   function pushEvent(event) {
     console.log("TRACK EVENT:", event);
+    
+    // Capture push-time specific values
+    const now = new Date();
+    const tzOffset = now.getTimezoneOffset() * 60000;
+    const localTime = new Date(now.getTime() - tzOffset);
+
     queue.push({
-      ...baseFields(),
+      timestamp: localTime.toISOString(),
+      page_url: window.location.pathname + window.location.hash,
+      current_page: window.location.pathname + window.location.hash,
+      previous_page: previousPage,
+      hash: window.location.hash || "",
       ...event
     });
 
@@ -231,13 +236,17 @@
       return;
     }
 
-    const events = queue;
+    // Merge latest base fields (including newly loaded geolocation data)
+    const base = baseFields();
+    const events = queue.map(evt => ({
+      ...base,
+      ...evt
+    }));
     queue = [];
 
     const body = JSON.stringify({ events });
 
     if (useBeacon && navigator.sendBeacon) {
-      // Beacon transmission (as CORS-friendly text/plain blob)
       const blob = new Blob([body], { type: "text/plain" });
       navigator.sendBeacon(API_URL, blob);
       return;
@@ -282,7 +291,6 @@
     }
   }
 
-  // Listen for direct message submissions for funnel conversion step 4
   document.addEventListener("submit", (e) => {
     if (e.target && e.target.id === "direct-message-form") {
       triggerFunnelStep("funnel_step_4_submit_message", 4, "User submitted a contact message");
@@ -296,11 +304,9 @@
   let currentActiveSection = "";
   let sectionEnterTime = Date.now();
 
-  // Initialize Section Observer on DOM Load
   function trackSectionView(sectionId) {
     if (currentActiveSection === sectionId) return;
 
-    // Log time spent on the outgoing section
     if (currentActiveSection) {
       const timeSpent = Math.round((Date.now() - sectionEnterTime) / 1000);
       pushEvent({
@@ -352,7 +358,6 @@
     setupSectionObserver();
   }
 
-  // Track hash changes
   window.addEventListener("hashchange", () => {
     pushEvent({
       event_type: "hashchange",
@@ -370,14 +375,12 @@
     const pageWidth = document.documentElement.scrollWidth;
     const pageHeight = document.documentElement.scrollHeight;
 
-    // Check if it's an external link
     const anchor = target.closest("a");
     if (anchor && anchor.href) {
       const url = anchor.href;
       try {
         const targetUrl = new URL(url, window.location.href);
         if (targetUrl.host !== window.location.host && url.startsWith("http")) {
-          // Handled by external link exit tracker
           return;
         }
       } catch (err) {}
@@ -394,7 +397,7 @@
       y_percent: pageHeight ? Number(((e.pageY / pageHeight) * 100).toFixed(2)) : 0
     });
 
-    flush(false); // Use reliable fetch for normal page clicks
+    flush(false);
   });
 
   // =====================================
@@ -427,7 +430,6 @@
     if (isExiting) return;
     isExiting = true;
     
-    // Log time spent on the outgoing section if any
     if (currentActiveSection) {
       const timeSpent = Math.round((Date.now() - sectionEnterTime) / 1000);
       pushEvent({
@@ -439,13 +441,12 @@
 
     pushEvent({
       event_type: "exit",
-      element_id: exitType, // 'external_link' or 'unload'
+      element_id: exitType,
       element_text: targetUrl || window.location.pathname + window.location.hash
     });
     flush(true);
   }
 
-  // Intercept click on external links
   document.addEventListener("click", function (e) {
     const anchor = e.target.closest("a");
     if (anchor && anchor.href) {
@@ -459,7 +460,6 @@
     }
   });
 
-  // Track unload
   window.addEventListener("beforeunload", () => {
     trackExitEvent("unload");
   });
@@ -475,6 +475,5 @@
   // =====================================
   setInterval(() => flush(false), FLUSH_INTERVAL_MS);
 
-  // Expose global flush for manual trigger
   window.trackerFlush = () => flush(false);
 })();
