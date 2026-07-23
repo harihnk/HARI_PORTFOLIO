@@ -4,7 +4,7 @@
   const ENABLED = CONFIG.enabled !== false;
   const API_URL = CONFIG.apiUrl || "http://localhost:3003/events";
   const FLUSH_INTERVAL_MS = CONFIG.flushInterval || 5000;
-  const BATCH_SIZE = CONFIG.batchSize || 10; // Smaller batch size to send events quicker
+  const BATCH_SIZE = CONFIG.batchSize || 10; 
 
   if (!ENABLED) {
     return;
