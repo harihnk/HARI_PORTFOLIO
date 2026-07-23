@@ -4,7 +4,7 @@
   const ENABLED = CONFIG.enabled !== false;
   const API_URL = CONFIG.apiUrl || "http://localhost:3003/events";
   const FLUSH_INTERVAL_MS = CONFIG.flushInterval || 5000;
-  const BATCH_SIZE = CONFIG.batchSize || 10; 
+  const BATCH_SIZE = CONFIG.batchSize || 10; // Smaller batch size to send events quicker
 
   if (!ENABLED) {
     return;
@@ -96,8 +96,11 @@
     const cachedGeo = sessionStorage.getItem("tracker_geo_data");
     if (cachedGeo) {
       try {
-        geoData = JSON.parse(cachedGeo);
-        return;
+        const parsed = JSON.parse(cachedGeo);
+        if (parsed && parsed.country !== "unknown" && parsed.city !== "unknown") {
+          geoData = parsed;
+          return;
+        }
       } catch (e) {}
     }
 
@@ -243,7 +246,7 @@
   document.addEventListener("submit", (e) => {
     if (e.target && e.target.id === "direct-message-form") {
       triggerFunnelStep("funnel_step_4_submit_message", 4, "User submitted a contact message");
-      flush(true);
+      flush(false);
     }
   });
 
@@ -253,6 +256,7 @@
   let currentActiveSection = "";
   let sectionEnterTime = Date.now();
 
+  // Initialize Section Observer on DOM Load
   function trackSectionView(sectionId) {
     if (currentActiveSection === sectionId) return;
 
@@ -300,7 +304,6 @@
     current_page: window.location.pathname + window.location.hash
   });
 
-  // Initialize Section Observer on DOM Load
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
       setupSectionObserver();
@@ -327,6 +330,19 @@
     const pageWidth = document.documentElement.scrollWidth;
     const pageHeight = document.documentElement.scrollHeight;
 
+    // Check if it's an external link
+    const anchor = target.closest("a");
+    if (anchor && anchor.href) {
+      const url = anchor.href;
+      try {
+        const targetUrl = new URL(url, window.location.href);
+        if (targetUrl.host !== window.location.host && url.startsWith("http")) {
+          // Handled by external link exit tracker
+          return;
+        }
+      } catch (err) {}
+    }
+
     pushEvent({
       event_type: "click",
       element_tag: target.tagName.toLowerCase(),
@@ -338,7 +354,7 @@
       y_percent: pageHeight ? Number(((e.pageY / pageHeight) * 100).toFixed(2)) : 0
     });
 
-    flush(true); // Force immediate delivery on interactive clicks
+    flush(false); // Use reliable fetch for normal page clicks
   });
 
   // =====================================
