@@ -6,7 +6,7 @@
   <title>Hari's Portfolio</title>
   <meta name="description" content="Portfolio of Hari Nandha Kumar C - B.Tech CSBS student, Full Stack Developer, and Backend Engineer specializing in Rust, ClickHouse, and systems engineering.">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/jpeg" href="assets/Logo.jpg">
+  <link rel="icon" type="image/png" href="assets/Logo.png?v=3">
 </head>
 <body>
 
@@ -19,20 +19,21 @@
 
   <!-- NAVIGATION -->
   <nav>
-    <a href="#home" class="logo" data-id="nav_logo">
+    <a href="#home" class="logo" id="nav-logo" data-id="nav_logo">
+      <img src="assets/Logo.png" alt="HNK Logo" class="logo-img">
       <span>HNK</span>
     </a>
 
-    <button class="menu-btn" aria-label="Toggle Navigation" data-id="mobile_menu_btn">
+    <button class="menu-btn" aria-label="Toggle Navigation" id="mobile-menu-btn" data-id="mobile_menu_btn">
       &#9776;
     </button>
 
     <div class="nav-links">
-      <a href="#home" class="active" data-id="nav_home">Home</a>
-      <a href="#about" data-id="nav_about">About</a>
-      <a href="#projects" data-id="nav_projects">Projects</a>
-      <a href="#skills" data-id="nav_skills">Skills</a>
-      <a href="#contact" data-id="nav_contact">Contact</a>
+      <a href="#home" class="active" id="nav-home" data-id="nav_home">Home</a>
+      <a href="#about" id="nav-about" data-id="nav_about">About</a>
+      <a href="#projects" id="nav-projects" data-id="nav_projects">Projects</a>
+      <a href="#skills" id="nav-skills" data-id="nav_skills">Skills</a>
+      <a href="#contact" id="nav-contact" data-id="nav_contact">Contact</a>
     </div>
   </nav>
 
@@ -69,10 +70,10 @@
           </div>
           
           <div class="btn-container">
-            <a href="#projects" class="btn btn-primary" data-id="hero_portfolio_btn">
+            <a href="#projects" class="btn btn-primary" id="hero-portfolio-btn" data-id="hero_portfolio_btn">
               Projects &darr;
             </a>
-            <a href="resume.pdf" class="btn btn-secondary" download data-id="hero_resume_btn">
+            <a href="resume.pdf" class="btn btn-secondary" download id="hero-resume-btn" data-id="hero_resume_btn">
               Download Resume ↓
             </a>
           </div>
@@ -145,10 +146,10 @@
             I specialize in engineering systems using <strong>Rust</strong> and <strong>SQL</strong>, and managing column-oriented data storage in <strong>ClickHouse</strong> for analytics pipelines. I focus on building reliable software with clean structure and robust system design.
           </p>
           <div class="btn-container">
-            <a href="resume.pdf" class="btn btn-primary" download data-id="about_resume_btn">
+            <a href="resume.pdf" class="btn btn-primary" download id="about-resume-btn" data-id="about_resume_btn">
               Download Resume ↓
             </a>
-            <a href="#projects" class="btn btn-secondary" data-id="about_portfolio_btn">
+            <a href="#projects" class="btn btn-secondary" id="about-portfolio-btn" data-id="about_portfolio_btn">
               Explore Projects &rarr;
             </a>
           </div>
@@ -282,7 +283,7 @@
       <div class="project-grid">
         
         <!-- Project 1 -->
-        <div class="project-card" data-id="project_analytics">
+        <div class="project-card" id="project-card-analytics" data-id="project_analytics">
           <span class="project-status in-progress">In Progress</span>
           <h3>Click Tracking Analytics Platform</h3>
           <p>
@@ -297,7 +298,7 @@
         </div>
 
         <!-- Project 2 -->
-        <div class="project-card" data-id="project_sync_service">
+        <div class="project-card" id="project-card-sync-service" data-id="project_sync_service">
           <span class="project-status completed">Completed</span>
           <h3>ClickHouse &rarr; PostgreSQL Sync</h3>
           <p>
@@ -312,7 +313,7 @@
         </div>
 
         <!-- Project 3 -->
-        <div class="project-card" data-id="project_hexaboard">
+        <div class="project-card" id="project-card-hexaboard" data-id="project_hexaboard">
           <span class="project-status hackathon">Hackathon</span>
           <h3>HexaBoard Onboarding Platform</h3>
           <p>
@@ -327,7 +328,7 @@
         </div>
 
         <!-- Project 4 -->
-        <div class="project-card" data-id="project_vehicle_repairs">
+        <div class="project-card" id="project-card-vehicle-repairs" data-id="project_vehicle_repairs">
           <span class="project-status completed">Completed</span>
           <h3>On-the-Go Vehicle Repairs</h3>
           <p>
@@ -514,7 +515,7 @@
               <textarea id="contact-message" class="form-control" placeholder="Write your message..." required data-id="direct_message_input"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-id="direct_submit_btn">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" id="direct-submit-btn" data-id="direct_submit_btn">
               Send Message
             </button>
 
@@ -523,10 +524,10 @@
 
         <!-- Contact Information (LinkedIn & Email) -->
         <div style="text-align: center; margin-top: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-          <a href="mailto:harihnk033@gmail.com" class="btn btn-secondary" data-id="contact_email_link">
+          <a href="mailto:harihnk033@gmail.com" class="btn btn-secondary" id="contact-email-link" data-id="contact_email_link">
             ✉ harihnk033@gmail.com
           </a>
-          <a href="https://www.linkedin.com/in/hari-nandha-kumar-c/" target="_blank" class="btn btn-secondary" data-id="contact_linkedin_link">
+          <a href="https://www.linkedin.com/in/hari-nandha-kumar-c/" target="_blank" class="btn btn-secondary" id="contact-linkedin-link" data-id="contact_linkedin_link">
             🔗 LinkedIn Profile
           </a>
         </div>
@@ -553,9 +554,10 @@
 
   <script>
     window.TRACKER_CONFIG = {
-      apiUrl: "http://localhost:3003/events",
-      flushInterval: 5000,
-      batchSize: 20
+      API_ENDPOINT: "http://192.168.1.8:3003/events",
+      FLUSH_INTERVAL: 5000,
+      BATCH_SIZE: 20,
+      DEBUG: true
     };
   </script>
   <script src="tracker.js"></script>
