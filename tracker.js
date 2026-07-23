@@ -83,7 +83,7 @@
   const deviceDetails = getDeviceDetails();
 
   // =====================================
-  // IP & GEOLOCATION (FREE SERVICE INTEGRATION)
+  // IP & GEOLOCATION (HTML5 + NOMINATIM REVERSE GEO & IP FALLBACK)
   // =====================================
   let geoData = {
     ip: "unknown",
@@ -104,7 +104,44 @@
       } catch (e) {}
     }
 
-    // Fetch from free IP API
+    // Try HTML5 Geolocation for exact location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10`, {
+            headers: {
+              "Accept-Language": "en"
+            }
+          })
+            .then(res => res.json())
+            .then(data => {
+              const addr = data.address || {};
+              geoData = {
+                ip: "unknown",
+                country: addr.country || "unknown",
+                region: addr.state || addr.state_district || "unknown",
+                city: addr.city || addr.town || addr.village || addr.suburb || "unknown"
+              };
+              sessionStorage.setItem("tracker_geo_data", JSON.stringify(geoData));
+            })
+            .catch(() => {
+              fetchIPGeoData();
+            });
+        },
+        () => {
+          fetchIPGeoData();
+        },
+        { timeout: 8000 }
+      );
+    } else {
+      fetchIPGeoData();
+    }
+  }
+
+  function fetchIPGeoData() {
     fetch("https://ipapi.co/json/")
       .then(res => res.json())
       .then(data => {
@@ -117,7 +154,6 @@
         sessionStorage.setItem("tracker_geo_data", JSON.stringify(geoData));
       })
       .catch(() => {
-        // Fallback resolver
         fetch("https://ipinfo.io/json")
           .then(res => res.json())
           .then(data => {
