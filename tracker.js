@@ -134,6 +134,13 @@
   fetchGeoData();
 
   // =====================================
+  // NAVIGATION VARIABLES
+  // =====================================
+  const previousPage = sessionStorage.getItem("last_page") || "";
+  const externalReferrer = document.referrer || "";
+  sessionStorage.setItem("last_page", window.location.pathname + window.location.hash);
+
+  // =====================================
   // BASE EVENT BUILDER
   // =====================================
   function baseFields() {
@@ -145,10 +152,16 @@
       browser: deviceDetails.browser,
       os: deviceDetails.os,
       device_type: deviceDetails.device,
+      viewport_width: window.innerWidth || document.documentElement.clientWidth || 0,
+      viewport_height: window.innerHeight || document.documentElement.clientHeight || 0,
       ip: geoData.ip,
       country: geoData.country,
       region: geoData.region,
-      city: geoData.city
+      city: geoData.city,
+      previous_page: previousPage,
+      current_page: window.location.pathname + window.location.hash,
+      external_referrer: externalReferrer,
+      hash: window.location.hash || ""
     };
   }
 
@@ -281,13 +294,11 @@
   // =====================================
   // PAGE INITIALIZATION VIEW
   // =====================================
-  const previousPage = sessionStorage.getItem("last_page") || "";
   pushEvent({
     event_type: "pageview",
     previous_page: previousPage,
     current_page: window.location.pathname + window.location.hash
   });
-  sessionStorage.setItem("last_page", window.location.pathname + window.location.hash);
 
   // Initialize Section Observer on DOM Load
   if (document.readyState === "loading") {
@@ -318,7 +329,8 @@
 
     pushEvent({
       event_type: "click",
-      element_id: target.getAttribute("data-id") || target.id || target.tagName.toLowerCase(),
+      element_tag: target.tagName.toLowerCase(),
+      element_id: target.getAttribute("data-id") || target.id || "",
       element_text: (target.innerText || target.value || "").trim().slice(0, 80),
       x_pos: e.pageX,
       y_pos: e.pageY,
@@ -351,14 +363,15 @@
   }, { passive: true });
 
   // =====================================
-  // AUTO FLUSH TIMER
+  // EXIT WAY TRACKING
   // =====================================
-  setInterval(() => flush(false), FLUSH_INTERVAL_MS);
+  let isExiting = false;
 
-  // =====================================
-  // EXIT EVENT FLUSHING
-  // =====================================
-  function trackExit() {
+  function trackExitEvent(exitType, targetUrl = "") {
+    if (isExiting) return;
+    isExiting = true;
+    
+    // Log time spent on the outgoing section if any
     if (currentActiveSection) {
       const timeSpent = Math.round((Date.now() - sectionEnterTime) / 1000);
       pushEvent({
@@ -367,15 +380,44 @@
         duration_seconds: timeSpent
       });
     }
+
+    pushEvent({
+      event_type: "exit",
+      element_id: exitType, // 'external_link' or 'unload'
+      element_text: targetUrl || window.location.pathname + window.location.hash
+    });
     flush(true);
   }
 
-  window.addEventListener("beforeunload", trackExit);
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") {
-      trackExit();
+  // Intercept click on external links
+  document.addEventListener("click", function (e) {
+    const anchor = e.target.closest("a");
+    if (anchor && anchor.href) {
+      const url = anchor.href;
+      try {
+        const targetUrl = new URL(url, window.location.href);
+        if (targetUrl.host !== window.location.host && url.startsWith("http")) {
+          trackExitEvent("external_link", url);
+        }
+      } catch (err) {}
     }
   });
+
+  // Track unload
+  window.addEventListener("beforeunload", () => {
+    trackExitEvent("unload");
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      trackExitEvent("unload");
+    }
+  });
+
+  // =====================================
+  // AUTO FLUSH TIMER
+  // =====================================
+  setInterval(() => flush(false), FLUSH_INTERVAL_MS);
 
   // Expose global flush for manual trigger
   window.trackerFlush = () => flush(false);

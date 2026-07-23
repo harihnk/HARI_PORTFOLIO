@@ -754,6 +754,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // =====================================
+  // 11. Dynamic Circular Favicon Generator
+  // =====================================
+  function createCircularFavicon() {
+    const favicon = document.querySelector("link[rel='icon']");
+    if (!favicon) return;
+
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = favicon.getAttribute("href");
+    
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const size = 128; // standard high-res favicon size
+      canvas.width = size;
+      canvas.height = size;
+      
+      const ctx = canvas.getContext("2d");
+      
+      // Clear canvas (transparent background)
+      ctx.clearRect(0, 0, size, size);
+      
+      // Create a circular clipping mask
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, (size / 2) - 1, 0, Math.PI * 2);
+      ctx.clip();
+      
+      // Draw the original logo image centered and scaled
+      ctx.drawImage(img, 0, 0, size, size);
+      
+      // Replace the favicon href with the transparent circular data URL
+      favicon.setAttribute("href", canvas.toDataURL("image/png"));
+    };
+  }
+
+  createCircularFavicon();
+
   // Call on load and popstate history events
   window.addEventListener("load", resolveInitialRoute);
   window.addEventListener("popstate", resolveInitialRoute);

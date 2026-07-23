@@ -2,7 +2,7 @@
    HARI NANDHA KUMAR C - PREMIUM SYNTHWAVE & CYBERPUNK NEON STYLE SYSTEM
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap');
 
 :root {
   --bg: #09080d;
@@ -125,9 +125,9 @@ nav {
 }
 
 .logo {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 1000;
-  font-size: 1.8rem;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
   color: #fff;
   text-decoration: none;
   display: flex;
@@ -144,7 +144,7 @@ nav {
   height: 36px;
   width: 36px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 50%;
 }
 
 .logo span {
