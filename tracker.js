@@ -73,7 +73,7 @@
     }
 
     // Secondary mobile check
-    if (device === "Desktop" && /mobile|touch/i.test(ua)) {
+    if (device === "Desktop" && /mobile/i.test(ua)) {
       device = "Mobile";
     }
 
