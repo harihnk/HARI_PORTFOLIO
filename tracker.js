@@ -147,11 +147,15 @@
   // BASE EVENT BUILDER
   // =====================================
   function baseFields() {
+    const now = new Date();
+    const tzOffset = now.getTimezoneOffset() * 60000;
+    const localTime = new Date(now.getTime() - tzOffset);
+
     return {
       user_id: userId,
       session_id: sessionId,
       page_url: window.location.pathname + window.location.hash,
-      timestamp: new Date().toISOString(),
+      timestamp: localTime.toISOString(),
       browser: deviceDetails.browser,
       os: deviceDetails.os,
       device_type: deviceDetails.device,
