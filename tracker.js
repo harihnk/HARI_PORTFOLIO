@@ -280,24 +280,28 @@
         },
 
         init: async () => {
-            // Check session cache first
+            // Check session cache — only use if it was from GPS (has gps_source flag)
             const cached = Utils.getStorage('geo');
-            if (cached && cached.country && cached.city) {
+            if (cached && cached.gps_source && cached.country && cached.city) {
                 state.geoData = cached;
-                log('Cached geo:', state.geoData);
+                log('Cached GPS geo:', state.geoData);
                 return;
             }
 
-            // Try browser GPS first, fall back to IP
+            // Always try browser GPS first for exact device location
             const gotGPS = await Geo.fetchBrowserGeo();
-            if (!gotGPS || !state.geoData.city) {
-                await Geo.fetchIPGeo();
+            if (gotGPS && state.geoData.city) {
+                // Mark as GPS-sourced so we cache it
+                state.geoData.gps_source = true;
+                Utils.setStorage('geo', state.geoData);
+                log('GPS location resolved and cached:', state.geoData);
+                return;
             }
 
-            // Cache for session
-            if (state.geoData.country) {
-                Utils.setStorage('geo', state.geoData);
-            }
+            // Fallback to IP-based (less accurate — gives ISP location, not device location)
+            await Geo.fetchIPGeo();
+            // Do NOT cache IP-based results — re-attempt GPS on next page load
+            log('IP fallback location (not cached):', state.geoData);
         }
     };
 
